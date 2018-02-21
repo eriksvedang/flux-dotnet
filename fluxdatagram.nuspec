@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>FluxDatagram</id>
+    <version>1.0.0</version>
+    <authors>Peter Bjorklund</authors>
+    <owners>Peter Bjorklund</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl></projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>UDP Send and Receive</description>
+    <releaseNotes>Initial Commit.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>udp ip</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+</package>
