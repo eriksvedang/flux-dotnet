@@ -25,60 +25,11 @@ SOFTWARE.
 */
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 
 namespace Flux.Client.Datagram
 {
-	public class Client
+	public interface IPacketReceiver
 	{
-		UdpClient udp;
-		IPEndPoint endpoint;
-		IPacketReceiver receiver;
-		bool isListening;
-		Thread listeningThread;
-
-		public Client(string host, int port, IPacketReceiver receiver)
-		{
-			endpoint = new IPEndPoint(IPAddress.Parse(host), port);
-			var localBindPoint = new IPEndPoint (IPAddress.Any, 0);
-			udp = new UdpClient(localBindPoint);
-			this.receiver = receiver;
-			StartListener();
-		}
-
-		public void StartListener()
-		{
-			if (!isListening)
-			{
-				listeningThread = new Thread(ListenForUDPPackages);
-				isListening = true;
-				listeningThread.Start();
-			}
-		}
-
-		public void ListenForUDPPackages()
-		{
-			while (isListening)
-			{
-				var receivedEndpoint = new IPEndPoint (IPAddress.Any, 32001);
-
-				var octets = Receive(out receivedEndpoint);
-				receiver.ReceivePacket(octets, receivedEndpoint);
-			}
-		}
-
-		public void Send(byte[] data)
-		{
-			udp.Send(data, data.Length, endpoint);
-		}
-
-		private byte[] Receive(out IPEndPoint receivedEndpoint)
-		{
-			IPEndPoint hostEndpoint = null;
-			var data = udp.Receive(ref hostEndpoint);
-
-			receivedEndpoint = hostEndpoint;
-			return data;
-		}
+		void ReceivePacket(byte[] octets, IPEndPoint fromEndpoint);
 	}
 }
