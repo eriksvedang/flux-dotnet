@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 */
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -60,20 +61,38 @@ namespace Flux.Client.Datagram
 		{
 			while (isListening)
 			{
-				var receivedEndpoint = new IPEndPoint (IPAddress.Any, 32001);
+				try
+				{
+					var receivedEndpoint = new IPEndPoint (IPAddress.Any, 32001);
 
-				var octets = Receive(out receivedEndpoint);
-				receiver.ReceivePacket(octets, receivedEndpoint);
+					var octets = Receive(out receivedEndpoint);
+					receiver.ReceivePacket(octets, receivedEndpoint);
+				}
+				catch (Exception e)
+				{
+					Console.Error.WriteLine($"Flux: Error {e}");
+				}
 			}
 		}
 
 		public void Send(byte[] data)
 		{
+			if (Randomizer.NextInt(0, 100) < 10)
+			{
+				// Drop packet!
+				return;
+			}
 			udp.Send(data, data.Length, endpoint);
 		}
 
-		private byte[] Receive(out IPEndPoint receivedEndpoint)
+		byte[] Receive(out IPEndPoint receivedEndpoint)
 		{
+			if (Randomizer.NextInt(0, 100) < 10)
+			{
+				// Drop packet!
+				receivedEndpoint = null;
+				return new byte[0];
+			}
 			IPEndPoint hostEndpoint = null;
 			var data = udp.Receive(ref hostEndpoint);
 

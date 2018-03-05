@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <BaseDirectory>..\..\..\lib</BaseDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\lib\client.cs" />
+    <Compile Include="..\..\..\lib\IPacketReceiver.cs" />
+    <Compile Include="..\..\..\lib\Randomizer.cs" />
+  </ItemGroup>
+</Project>

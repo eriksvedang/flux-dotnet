@@ -23,12 +23,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 */
-using System.Net;
+﻿using System;
+using System.Security.Cryptography;
 
 namespace Flux.Client.Datagram
 {
-	public interface IPacketReceiver
+	public static class Randomizer
 	{
-		void ReceivePacket(byte[] octets, IPEndPoint fromEndpoint);
+		public static int NextInt(int min, int max)
+		{
+			var rng = new RNGCryptoServiceProvider();
+
+			byte[] buffer = new byte[4];
+
+			rng.GetBytes(buffer);
+			int result = BitConverter.ToInt32(buffer, 0);
+
+			return new Random(result).Next(min, max);
+		}
 	}
 }
