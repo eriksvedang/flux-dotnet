@@ -6,8 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\lib\client.cs" />
+    <Compile Remove="..\..\..\lib\Randomizer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\lib\Client.cs" />
     <Compile Include="..\..\..\lib\IPacketReceiver.cs" />
-    <Compile Include="..\..\..\lib\Randomizer.cs" />
   </ItemGroup>
 </Project>
