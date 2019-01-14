@@ -23,12 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 */
+using System;
 using System.Net;
 
 namespace Flux.Client.Datagram
 {
-	public interface IPacketReceiver
-	{
-		void ReceivePacket(byte[] octets, IPEndPoint fromEndpoint);
-	}
+    public interface IPacketReceiver
+    {
+        void ReceivePacket(byte[] octets, IPEndPoint fromEndpoint);
+        void HandleException(Exception e);
+    }
 }
