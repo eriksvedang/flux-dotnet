@@ -1,24 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <BaseDirectory>..\..\..\lib</BaseDirectory>
-
-    <PackageId>Flux.Net</PackageId>
-    <Version>2.0.0</Version>
-    <Authors>Piot</Authors>
-    <Description>UDP Send and Receive</Description>
-    <PackageLicense>MIT</PackageLicense>
-    <PackageProjectUrl> https://github.com/Piot/flux-dotnet</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/piot/flux-dotnet.git</RepositoryUrl>
-    <PacketReleaseNotes>Initial commit.</PacketReleaseNotes>
-    <IncludeSymbols>true</IncludeSymbols>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="..\..\..\lib\Client.cs" />
-    <Compile Include="..\..\..\lib\IPacketReceiver.cs" />
-  </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <BaseDirectory>..\..\..\lib</BaseDirectory>
+        <PackageId>Flux.Net</PackageId>
+        <Version>2.0.0</Version>
+        <Authors>Piot</Authors>
+        <Description>UDP Send and Receive</Description>
+        <PackageLicense>MIT</PackageLicense>
+        <PackageProjectUrl>https://github.com/Piot/flux-dotnet</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/piot/flux-dotnet.git</RepositoryUrl>
+        <PacketReleaseNotes>Initial commit.</PacketReleaseNotes>
+        <IncludeSymbols>true</IncludeSymbols>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="../../../lib/Client.cs">
+            <Link>Client.cs</Link>
+        </Compile>
+        <Compile Include="../../../lib/IPacketReceiver.cs">
+            <Link>IPacketReceiver.cs</Link>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup></ItemGroup>
 </Project>
