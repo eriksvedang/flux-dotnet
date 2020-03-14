@@ -28,13 +28,13 @@ using System.Net;
 
 namespace somethingelse
 {
-	static class TestClass
-	{
-		static void Main(string[] args)
-		{
-			var client = new Client("127.0.0.1", 32000);
+    static class TestClass
+    {
+        static void Main(string[] args)
+        {
+            var client = new Client("127.0.0.1", 32000);
 
-			client.Send(new byte[] {0x20, 0x30, 0x40});
-		}
-	}
+            client.Send(new byte[] { 0x20, 0x30, 0x40 });
+        }
+    }
 }

@@ -89,6 +89,12 @@ namespace Flux.Client.Datagram
 
         public void Send(byte[] data)
         {
+            const int maxRecommendedSize = 1280;
+            if (data.Length > maxRecommendedSize)
+            {
+                throw new Exception($"UDP Send: Packet too big {data.Length}");
+            }
+
             udp.Send(data, data.Length, endpoint);
         }
 

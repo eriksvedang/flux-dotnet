@@ -12,13 +12,13 @@
         <PacketReleaseNotes>Initial commit.</PacketReleaseNotes>
         <IncludeSymbols>true</IncludeSymbols>
     </PropertyGroup>
-    <ItemGroup>
-        <Compile Include="../../../lib/Client.cs">
-            <Link>Client.cs</Link>
-        </Compile>
-        <Compile Include="../../../lib/IPacketReceiver.cs">
-            <Link>IPacketReceiver.cs</Link>
-        </Compile>
-    </ItemGroup>
-    <ItemGroup></ItemGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <OutputPath>..\..\build\Debug\</OutputPath>
+        <IntermediateOutputPath>..\..\build\Debug\obj</IntermediateOutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <OutputPath>..\build\Release\</OutputPath>
+        <IntermediateOutputPath>..\..\build\Release\obj</IntermediateOutputPath>
+    </PropertyGroup>
 </Project>
