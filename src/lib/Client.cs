@@ -38,7 +38,22 @@ namespace Flux.Client.Datagram
         bool isListening;
         Thread listeningThread;
 
-        public Client(string hostAndPort, IPacketReceiver receiver)
+        public Client(IPacketReceiver receiver)
+        {
+            var localBindPoint = new IPEndPoint(IPAddress.Any, 0);
+            udp = new UdpClient(localBindPoint);
+            this.receiver = receiver;
+            StartListener();
+        }
+
+        public void Close()
+        {
+            listeningThread.Join();
+            listeningThread = null;
+            udp.Close();
+        }
+
+        public void SetDefaultSendEndpoint(string hostAndPort)
         {
             var hostLength = hostAndPort.LastIndexOf(':');
 
@@ -52,10 +67,6 @@ namespace Flux.Client.Datagram
                 throw new Exception($"Couldn't find the dns lookup for {hostname}");
             }
             endpoint = new IPEndPoint(addresses[0], port);
-            var localBindPoint = new IPEndPoint(IPAddress.Any, 0);
-            udp = new UdpClient(localBindPoint);
-            this.receiver = receiver;
-            StartListener();
         }
 
         public void StartListener()
@@ -89,6 +100,11 @@ namespace Flux.Client.Datagram
 
         public void Send(byte[] data)
         {
+            Send(data, endpoint);
+        }
+
+        public void Send(byte[] data, IPEndPoint receivedEndpoint)
+        {
             const int maxRecommendedSize = 1280;
             if (data.Length > maxRecommendedSize)
             {
@@ -97,6 +113,7 @@ namespace Flux.Client.Datagram
 
             udp.Send(data, data.Length, endpoint);
         }
+
 
         byte[] Receive(out IPEndPoint receivedEndpoint)
         {
