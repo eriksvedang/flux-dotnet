@@ -29,4 +29,5 @@ jobs:
         with:
           nuget-api-key: ${{ secrets.NUGET_API_KEY }}
           workspace: src/lib/
+          nupkg: build/Debug/*.nupkg
           version: ${{ steps.fetchver.outputs.version }}
