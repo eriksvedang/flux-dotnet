@@ -25,23 +25,22 @@ SOFTWARE.
 */
 using System;
 using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 
 namespace Flux.Client.Datagram
 {
     public class Client
     {
-        UdpClient udp;
+        IPort port;
         IPEndPoint endpoint;
         IPacketReceiver receiver;
         bool isListening;
         Thread listeningThread;
 
-        public Client(IPacketReceiver receiver)
+        public Client(IPacketReceiver receiver, IPort port)
         {
-            var localBindPoint = new IPEndPoint(IPAddress.Any, 0);
-            udp = new UdpClient(localBindPoint);
+            this.port = port;
+            this.port.Connect(IPAddress.Any, 0);
             this.receiver = receiver;
             StartListener();
         }
@@ -50,7 +49,7 @@ namespace Flux.Client.Datagram
         {
             listeningThread.Join();
             listeningThread = null;
-            udp.Close();
+            port.Close();
         }
 
         public void SetDefaultSendEndpoint(string hostAndPort)
@@ -111,14 +110,12 @@ namespace Flux.Client.Datagram
                 throw new Exception($"UDP Send: Packet too big {data.Length}");
             }
 
-            udp.Send(data, data.Length, endpoint);
+            port.Send(data);
         }
-
 
         byte[] Receive(out IPEndPoint receivedEndpoint)
         {
-            IPEndPoint hostEndpoint = null;
-            var data = udp.Receive(ref hostEndpoint);
+            var (data, hostEndpoint) = port.Receive();
 
             receivedEndpoint = hostEndpoint;
             return data;
