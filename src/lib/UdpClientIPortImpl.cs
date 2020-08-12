@@ -7,7 +7,7 @@ namespace Flux.Client.Datagram
     {
         System.Net.Sockets.UdpClient udp;
 
-        UdpClient()
+        public UdpClient()
         {
             udp = null;
         }
