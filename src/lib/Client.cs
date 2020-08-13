@@ -32,7 +32,6 @@ namespace Flux.Client.Datagram
     public class Client
     {
         IPort port;
-        IPEndPoint endpoint;
         IPacketReceiver receiver;
         bool isListening;
         Thread listeningThread;
@@ -65,7 +64,8 @@ namespace Flux.Client.Datagram
             {
                 throw new Exception($"Couldn't find the dns lookup for {hostname}");
             }
-            endpoint = new IPEndPoint(addresses[0], port);
+
+            this.port.Connect(addresses[0], port);
         }
 
         public void StartListener()
@@ -98,11 +98,6 @@ namespace Flux.Client.Datagram
         }
 
         public void Send(byte[] data)
-        {
-            Send(data, endpoint);
-        }
-
-        public void Send(byte[] data, IPEndPoint receivedEndpoint)
         {
             const int maxRecommendedSize = 1280;
             if (data.Length > maxRecommendedSize)
