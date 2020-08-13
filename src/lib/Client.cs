@@ -40,7 +40,6 @@ namespace Flux.Client.Datagram
         public Client(IPacketReceiver receiver, IPort port)
         {
             this.port = port;
-            this.port.Connect(IPAddress.Any, 0);
             this.receiver = receiver;
             StartListener();
         }
@@ -49,7 +48,6 @@ namespace Flux.Client.Datagram
         {
             listeningThread.Join();
             listeningThread = null;
-            port.Close();
         }
 
         public void SetDefaultSendEndpoint(string hostAndPort)
@@ -110,7 +108,7 @@ namespace Flux.Client.Datagram
                 throw new Exception($"UDP Send: Packet too big {data.Length}");
             }
 
-            port.Send(data);
+            port.Send(receivedEndpoint, data);
         }
 
         byte[] Receive(out IPEndPoint receivedEndpoint)

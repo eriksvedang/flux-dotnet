@@ -4,9 +4,7 @@ namespace Flux.Client.Datagram
 {
     public interface IPort
     {
-        void Connect(IPAddress address, int port);
-        void Send(byte[] data);
+        void Send(IPEndPoint endPoint, byte[] data);
         (byte[], IPEndPoint) Receive();
-        void Close();
     }
 }
