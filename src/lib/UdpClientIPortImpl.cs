@@ -9,17 +9,7 @@ namespace Flux.Client.Datagram
 
         public UdpClient()
         {
-            udp = null;
-        }
-
-        public void Close()
-        {
-            udp.Close();
-        }
-
-        public void Connect(IPAddress address, int port)
-        {
-            var localBindPoint = new IPEndPoint(address, port);
+            var localBindPoint = new IPEndPoint(IPAddress.Any, 0);
             udp = new System.Net.Sockets.UdpClient(localBindPoint);
         }
 
@@ -30,9 +20,9 @@ namespace Flux.Client.Datagram
             return (data, remote);
         }
 
-        public void Send(byte[] data)
+        public void Send(IPEndPoint endPoint, byte[] data)
         {
-            udp.Send(data, data.Length);
+            udp.Send(data, data.Length, endPoint);
         }
     }
 }
