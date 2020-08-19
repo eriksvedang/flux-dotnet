@@ -122,8 +122,6 @@ namespace Flux.Client.Datagram
 
         private void Relay()
         {
-            System.Console.WriteLine("Client.Relay()");
-
             var receivedEndpoint = new IPEndPoint(IPAddress.Any, 32001);
             var octets = Receive(out receivedEndpoint);
             receiver.ReceivePacket(octets, receivedEndpoint);
@@ -131,8 +129,6 @@ namespace Flux.Client.Datagram
 
         public void Update()
         {
-            System.Console.WriteLine("Client.Update()");
-
             if(!useThreads)
             {
                 Relay();
