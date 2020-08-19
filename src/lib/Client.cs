@@ -33,15 +33,20 @@ namespace Flux.Client.Datagram
     {
         IPort port;
         IPEndPoint endpoint;
-        IPacketReceiver receiver;
+        public IPacketReceiver receiver;
         bool isListening;
         Thread listeningThread;
+        bool useThreads;
 
-        public Client(IPacketReceiver receiver, IPort port)
+        public Client(IPacketReceiver receiver, IPort port, bool useThreads)
         {
             this.port = port;
             this.receiver = receiver;
-            StartListener();
+            this.useThreads = useThreads;
+
+            if(useThreads) {
+                StartListener();
+            }
         }
 
         public void Close()
@@ -82,10 +87,7 @@ namespace Flux.Client.Datagram
             {
                 try
                 {
-                    var receivedEndpoint = new IPEndPoint(IPAddress.Any, 32001);
-
-                    var octets = Receive(out receivedEndpoint);
-                    receiver.ReceivePacket(octets, receivedEndpoint);
+                    Relay();
                 }
                 catch (Exception e)
                 {
@@ -111,12 +113,30 @@ namespace Flux.Client.Datagram
             port.Send(receivedEndpoint, data);
         }
 
-        byte[] Receive(out IPEndPoint receivedEndpoint)
+        public byte[] Receive(out IPEndPoint receivedEndpoint)
         {
             var (data, hostEndpoint) = port.Receive();
-
             receivedEndpoint = hostEndpoint;
             return data;
+        }
+
+        private void Relay()
+        {
+            System.Console.WriteLine("Client.Relay()");
+
+            var receivedEndpoint = new IPEndPoint(IPAddress.Any, 32001);
+            var octets = Receive(out receivedEndpoint);
+            receiver.ReceivePacket(octets, receivedEndpoint);
+        }
+
+        public void Update()
+        {
+            System.Console.WriteLine("Client.Update()");
+
+            if(!useThreads)
+            {
+                Relay();
+            }
         }
     }
 }
