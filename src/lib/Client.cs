@@ -44,7 +44,8 @@ namespace Flux.Client.Datagram
             this.receiver = receiver;
             this.useThreads = useThreads;
 
-            if(useThreads) {
+            if (useThreads)
+            {
                 StartListener();
             }
         }
@@ -129,7 +130,7 @@ namespace Flux.Client.Datagram
 
         public void Update()
         {
-            if(!useThreads)
+            if (!useThreads)
             {
                 Relay();
             }
