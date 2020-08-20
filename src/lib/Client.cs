@@ -33,7 +33,7 @@ namespace Flux.Client.Datagram
     {
         IPort port;
         IPEndPoint endpoint;
-        public IPacketReceiver receiver;
+        IPacketReceiver receiver;
         bool isListening;
         Thread listeningThread;
         bool useThreads;
@@ -114,7 +114,7 @@ namespace Flux.Client.Datagram
             port.Send(receivedEndpoint, data);
         }
 
-        public byte[] Receive(out IPEndPoint receivedEndpoint)
+        byte[] Receive(out IPEndPoint receivedEndpoint)
         {
             var (data, hostEndpoint) = port.Receive();
             receivedEndpoint = hostEndpoint;
@@ -123,8 +123,7 @@ namespace Flux.Client.Datagram
 
         private void Relay()
         {
-            var receivedEndpoint = new IPEndPoint(IPAddress.Any, 32001);
-            var octets = Receive(out receivedEndpoint);
+            var octets = Receive(out IPEndPoint receivedEndpoint);
             receiver.ReceivePacket(octets, receivedEndpoint);
         }
 
