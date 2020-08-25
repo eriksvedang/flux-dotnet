@@ -70,6 +70,8 @@ namespace Flux.Client.Datagram
                 throw new Exception($"Couldn't find the dns lookup for {hostname}");
             }
             endpoint = new IPEndPoint(addresses[0], port);
+
+            this.port.Connect(hostAndPort);
         }
 
         public void StartListener()

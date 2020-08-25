@@ -13,6 +13,11 @@ namespace Flux.Client.Datagram
             udp = new System.Net.Sockets.UdpClient(localBindPoint);
         }
 
+        public void Connect(string address)
+        {
+            // Not necessary for UDP protocol.
+        }
+
         public (byte[], IPEndPoint) Receive()
         {
             IPEndPoint remote = null;
